@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "bulk_manager_django"
+version = "0.1.0"
+description = "Easier management of the bulk create/update/delete for Django"
+authors = ["Rood Repo <roodrepo@gmail.com>"]
+license = "MIT"
+keywords = ["bulk create", "bulk update", "bulk delete", "django"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Framework :: Django :: 4+",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+homepage = "https://github.com/roodrepo/bulk_manager_django"
+repository = "https://github.com/roodrepo/bulk_manager_django"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Django = "^4.0.2"
+default-mutable = "^0.1.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
