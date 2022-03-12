@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'myapp',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +68,33 @@ TEMPLATES = [
         },
     },
 ]
+
+LOGGING = {
+     'version': 1,
+     'disable_existing_loggers': False,
+     'formatters': {
+         'verbose': {
+             'format': '%(asctime)s-%(module)s-%(levelname)s :: %(message)s'
+         },
+         'simple': {
+             'format': '%(levelname)s :: %(message)s'
+         }
+     },
+     'handlers': {
+           'console': {
+             'level': 'DEBUG',
+             'class': 'logging.StreamHandler',
+             'formatter': 'verbose'
+         },
+     },
+     'loggers': {
+         'django': {
+             'handlers': ['console'],
+             'propagate': False,
+             'level': 'DEBUG'
+         },
+     }
+ }
 
 WSGI_APPLICATION = 'demo.wsgi.application'
 
