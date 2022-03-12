@@ -1,3 +1,8 @@
+Bulk Manager Django
+==========
+
+### *Easier management of the bulk create/update/delete for Django*
+
 Bulk Manager is a plugin for Django to facilitate the bulk features of database operations.
 
 ## Features
