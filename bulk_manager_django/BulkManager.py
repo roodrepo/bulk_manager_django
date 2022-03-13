@@ -15,7 +15,7 @@ class BulkManager:
 	_mapping_obj_table_name : dict  = {}
 	_table_order_delete     : list  = []
 	
-	
+	@defaultMutable
 	def delete(self, listObj : list = []) -> None:
 		'''
 			Performing delete according to the list passed
@@ -38,16 +38,14 @@ class BulkManager:
 				if _table_name in self._deletes:
 					query_delete.append(f'DELETE FROM {_table_name} WHERE {self._deletes[_table_name]["pk_field"]} IN ({", ".join(self._deletes[_table_name]["ids"])})')
 					del self._deletes[_table_name]
-				else:
-					raise Exception(f'{_table_name} not found')
-				
+					
 		final_query = query_update_set_null + ';'.join(query_delete)
 		if final_query != '':
 			with connection.cursor() as cursor:
 				cursor.execute(final_query)
 	
 	
-	def prepareDelete(self, obj: TypeClass) -> None:
+	def prepareDelete(self, obj: Union[TypeClass, QuerySet]) -> None:
 		'''
 		Kepping in memory all the parameters to perform a bulk delete later on
 		
@@ -69,7 +67,7 @@ class BulkManager:
 					'pk_field'  : pk_name,
 					'ids'       : [],
 				}
-				
+			
 			self._deletes[tablename]['ids'].append(str(getattr(obj, pk_name)))
 		
 	
@@ -237,9 +235,11 @@ class BulkManager:
 		'''
 		current_list = self._table_order_delete
 		self._table_order_delete = []
+		
 		for _table_name in _list:
 			self._table_order_delete.append(_table_name)
-			current_list.remove(_table_name)
+			if _table_name in current_list:
+				current_list.remove(_table_name)
 			
 		self._table_order_delete += current_list
 	
