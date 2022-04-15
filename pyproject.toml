@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bulk_manager_django"
-version = "0.1.1"
+version = "0.1.2"
 description = "Easier management of the bulk create/update/delete for Django"
 authors = ["Rood Repo <roodrepo@gmail.com>"]
 license = "MIT"
