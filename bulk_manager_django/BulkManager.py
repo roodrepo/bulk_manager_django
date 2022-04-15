@@ -1,6 +1,6 @@
 from django.db import connection
 from django.db.models.query import QuerySet
-from typing import Any, Tuple, TypeVar, Union
+from typing import Any, Tuple, TypeVar, Union, Optional
 from default_mutable.DefaultMutable import defaultMutable
 
 TypeClass = TypeVar('TypeClass')
@@ -71,7 +71,7 @@ class BulkManager:
 			self._deletes[tablename]['ids'].append(str(getattr(obj, pk_name)))
 		
 	
-	def getValueFromMemory(self, obj: TypeClass, attr: str, default_value: Union[str, int, float, bool, None] = None) -> Union[str, int, float, bool, None]:
+	def getValueFromMemory(self, obj: TypeClass, attr: Optional[str] = None, default_value: Union[str, int, float, bool, None] = None) -> Union[str, int, float, bool, None]:
 		'''
 			Access the value of an object previously updated
 		'''
@@ -81,8 +81,14 @@ class BulkManager:
 		pk_value = getattr(obj, obj._meta.pk.name)
 		
 		class_name = obj.__class__.__name__
-		if class_name in self._objects and pk_value in self._objects[class_name] and hasattr(self._objects[class_name][pk_value], attr):
-			return getattr(self._objects[class_name][pk_value], attr)
+		
+		if class_name in self._objects and pk_value in self._objects[class_name]:
+			# Returning the value
+			if attr is not None and hasattr(self._objects[class_name][pk_value], attr):
+				return getattr(self._objects[class_name][pk_value], attr)
+			# Returning the actual object
+			elif attr is None:
+				return self._objects[class_name][pk_value]
 		
 		return default_value
 	
